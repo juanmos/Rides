@@ -54,12 +54,17 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    public function conductor(){
-        return $this->belongsTo(Conductor::class,'conductor_id');
+    public function conductor()
+    {
+        return $this->belongsTo(Conductor::class, 'conductor_id');
     }
 
+    public function getFullNameAttribute()
+    {
+        return "{$this->nombre} {$this->apellido}";
+    }
 
-      /**
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed
