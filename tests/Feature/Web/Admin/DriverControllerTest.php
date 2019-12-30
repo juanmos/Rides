@@ -45,7 +45,7 @@ class DriverControllerTest extends TestCase
     /** @test */
     public function test_store_driver()
     {
-        $this->withoutExceptionHandling();
+
         $this->actingAs(User::first());
         $response=$this->post('admin/drivers/store', [
             'nombre'=>'Juanito',
