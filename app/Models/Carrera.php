@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Aerolinea;
 use App\Models\Vuelo;
@@ -11,6 +12,8 @@ use App\Models\User;
 
 class Carrera extends Model
 {
+    use SoftDeletes;
+
     protected $fillable=['estado_id','usuario_id','conductor_id','forma_pago_id','fecha','hora','vuelo','lugar_arribo','personas','destino','latitud','longitud','aerolinea_id','vuelo_id','costo','comision','factura','compartido','maletas','sentido','calificacion','nombre'];
 
     public function usuario(){

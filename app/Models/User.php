@@ -7,10 +7,12 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Conductor;
 
 class User extends Authenticatable implements JWTSubject
 {
+    use SoftDeletes;
     use Notifiable;
     use HasRoles;
     /**
@@ -35,7 +37,7 @@ class User extends Authenticatable implements JWTSubject
         'latitud',
         'longitud'
     ];
-    
+
     /**
      * The attributes that should be hidden for arrays.
      *
