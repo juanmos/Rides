@@ -15,11 +15,11 @@
                 <li  class="nav-item {{(Route::currentRouteName()=='admin.drivers.index')?'active':''}}">
                     <a href="{{route('admin.drivers.index')}}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-car"></i></span><span class="pcoded-mtext">Conductores</span></a>
                 </li>
-                {{--  <li data-username="Table bootstrap datatable footable" class="nav-item">
-                    <a href="{{route('hotel.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-server"></i></span><span class="pcoded-mtext">Hoteles</span></a>
+                <li  class="nav-item {{(Route::currentRouteName()=='admin.hoteles.index')?'active':''}}">
+                    <a href="{{route('admin.hoteles.index')}}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-building"></i></span><span class="pcoded-mtext">Hoteles</span></a>
                 </li>
-                
-                <li class="nav-item pcoded-menu-caption">
+
+                {{--  <li class="nav-item pcoded-menu-caption">
                     <label>Administración</label>
                 </li>
                 <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item pcoded-hasmenu">
@@ -40,7 +40,7 @@
                 <li data-username="form elements advance componant validation masking wizard picker select" class="nav-item">
                     <a href="{{route('logout')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-log-out"></i></span><span class="pcoded-mtext">Cerrar sesión</span></a>
                 </li>
-                {{-- 
+                {{--
                 <li class="nav-item pcoded-menu-caption">
                     <label>Configuraciones</label>
                 </li>

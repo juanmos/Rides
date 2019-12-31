@@ -16,7 +16,7 @@ class HomeController extends Controller
             return redirect()->route('driver.index');
         }
         else if(auth()->user()->hasRole('Hoteles')){
-            return redirect()->route('hotel.index');
+            return redirect()->route('hotel.dashboard');
         }
         else if(auth()->user()->hasRole('Usuarios')){
             return redirect()->route('user.index');

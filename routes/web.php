@@ -27,6 +27,12 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/create', 'Admin\DriverController@create')->name('admin.drivers.create');
             Route::post('/store', 'Admin\DriverController@store')->name('admin.drivers.store');
         });
+
+        Route::group(['prefix' => 'hoteles'], function () {
+            Route::get('/', 'Hotel\HotelController@index')->name('admin.hoteles.index');
+            Route::get('/create', 'Hotel\HotelController@create')->name('admin.hoteles.create');
+            Route::post('/store', 'Hotel\HotelController@store')->name('admin.hoteles.store');
+        });
     });
 
     Route::group(['prefix' => 'driver'], function () {
@@ -38,7 +44,17 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::group(['prefix' => 'hotel'], function () {
-        Route::get('/', 'Hotel\DashboardController@index')->name('hotel.index');
+        Route::get('/', 'Hotel\DashboardController@index')->name('hotel.dashboard');
+        Route::get('{hotel?}','Hotel\HotelController@show')->name('hotel.show');
+        Route::get('{hotel?}/edit','Hotel\HotelController@edit')->name('hotel.edit');
+        Route::put('{hotel?}/update','Hotel\HotelController@update')->name('hotel.update');
+        Route::delete('{hotel?}','Hotel\HotelController@destroy')->name('hotel.destroy');
+
+        Route::get('{hotel}/user/create','Hotel\UserController@create')->name('hotel.user.create');
+        Route::post('{hotel}/user/store','Hotel\UserController@store')->name('hotel.user.store');
+        Route::get('{hotel}/user/{user}/edit','Hotel\UserController@edit')->name('hotel.user.edit');
+        Route::put('{hotel}/user/{user}/update','Hotel\UserController@update')->name('hotel.user.update');
+        Route::delete('{hotel}/user/{user}/destroy','Hotel\UserController@destroy')->name('hotel.user.destroy');
     });
 
     Route::group(['prefix' => 'user'], function () {
