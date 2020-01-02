@@ -36,7 +36,7 @@
                 <form action="{{($user!=null)?route('hotel.user.update',[$hotel->id,$user->id]):route('hotel.user.store',$hotel->id)}}" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="hotel_id" value="{{$hotel->id}}"/>
                 @else
-                <form action="{{($user!=null)?route('user.update',[$user->id]):route('user.store')}}" method="POST" enctype="multipart/form-data">
+                <form action="{{($user!=null)?route('admin.users.update',[$user->id]):route('admin.users.store')}}" method="POST" enctype="multipart/form-data">
                 @endif
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                     <input type="hidden" name="_method" value="{{($user!=null)?'PUT':'POST'}}"/>
@@ -117,7 +117,7 @@
                                                 {!! Form::select('activo', ["0"=>"Inactivo","1"=>"Activo"], ($user!=null)?$user->activo : 1 ,["class"=>"form-control"]) !!}
                                             </div>
                                             @endif
-                                            @if($hotel==null)
+                                            @if(!Request::is('hotel/*'))
                                             <div class="form-group col-md-6">
                                                 <label for="exampleInputPassword1">Role</label>
                                                 {!! Form::select('role', $roles, ($user!=null)?$user->activo : 1 ,["class"=>"form-control"]) !!}

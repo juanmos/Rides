@@ -21,10 +21,11 @@
                 <li class="nav-item pcoded-menu-caption">
                     <label>Administración</label>
                 </li>
-                <li data-username="" class="nav-item pcoded-hasmenu {{(Route::currentRouteName()=='admin.aerolinea.index' )?'active pcoded-trigger':''}}">
+                <li data-username="" class="nav-item pcoded-hasmenu {{(Route::currentRouteName()=='admin.aerolinea.index' || Route::currentRouteName()=='admin.users.index' )?'active pcoded-trigger':''}}">
                     <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">Administración</span></a>
                     <ul class="pcoded-submenu">                        
                         <li class="{{(Route::currentRouteName()=='admin.aerolinea.index')?'active':''}}"><a href="{{route('admin.aerolinea.index')}}" class="">Aerolíneas</a></li>
+                        <li class="{{(Route::currentRouteName()=='admin.users.index')?'active':''}}"><a href="{{route('admin.users.index')}}" class="">Usuarios</a></li>
                     </ul>
                 </li>
                 @endif

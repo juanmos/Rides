@@ -61,6 +61,10 @@
                                                                         <td>{{$vuelo->hora_llegada}}</td>
                                                                         <td>
                                                                             <a href="{{ route('admin.aerolinea.vuelo.edit',[$aero->id,$vuelo->id]) }}" class="label theme-bg text-white f-12">Editar</a>
+                                                                            {!! Form::open(['route'=>['admin.aerolinea.vuelo.destroy',$aero->id,$vuelo->id],'method'=>'POST','style'=>'display:inline-flex;']) !!}
+                                                                            @method('delete')
+                                                                            <button type="submit" class="label theme-bg text-white f-12 float-right">Eliminar</button>
+                                                                            {!! Form::close() !!}
                                                                         </td>
                                                                     </tr>
                                                                     

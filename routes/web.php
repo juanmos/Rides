@@ -45,6 +45,8 @@ Route::group(['middleware' => ['auth']], function () {
             ->name('admin.aerolinea.vuelo.update');
         Route::delete('aerolinea/{aerolinea}/vuelo/{vuelo}', 'Admin\VueloController@destroy')
             ->name('admin.aerolinea.vuelo.destroy');
+
+        Route::resource('users', 'Admin\UsuarioController', ['as'=>'admin']);
     });
 
     Route::group(['prefix' => 'driver'], function () {
