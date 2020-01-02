@@ -34,10 +34,14 @@
     <link rel="icon" href="{{asset('assets/images/favicon.ico')}}" type="image/x-icon">
     <!-- fontawesome icon -->
     <link rel="stylesheet" href="{{asset('assets/fonts/fontawesome/css/fontawesome-all.min.css')}}">
+    <!-- material icon -->
+    <link rel="stylesheet" href="{{asset('assets/fonts/material/css/materialdesignicons.min.css')}}">
     <!-- animation css -->
     <link rel="stylesheet" href="{{asset('assets/plugins/animation/css/animate.min.css')}}">
     <!-- vendor css -->
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-datetimepicker/css/bootstrap-datepicker3.min.css')}}" />
+    @stack('styles')
 </head>
 <body>
     <div class="loader-bg">
@@ -58,10 +62,10 @@
                            <div class="b-bg">
                                <i class="feather icon-trending-up"></i>
                            </div>
-                           <span class="b-title">Control Electoral</span>
+                           <span class="b-title">{{ config('app.name', 'Laravel') }}</span>
                        </a>
                 </div>
-                {{-- <a class="mobile-menu" id="mobile-header" href="javascript:">
+                {{--  <a class="mobile-menu" id="mobile-header" href="javascript:">
                     <i class="feather icon-more-horizontal"></i>
                 </a>
                 <div class="collapse navbar-collapse">
@@ -165,14 +169,16 @@
                             </div>
                         </li>
                     </ul>
-                </div> --}}
+                </div>  --}}
             </header>
             <!-- [ Header ] end -->
         
+            <!-- [ Mensaje Content ] start -->
+            
             <!-- [ Main Content ] start -->
             @yield('content')
             <!-- [ Main Content ] end -->
-        
+            {{-- @include('includes.check_primer_login') --}}
             <!-- Warning Section Starts -->
             <!-- Older IE warning message -->
             <!--[if lt IE 11]>
@@ -274,11 +280,31 @@
             @yield('content')
         </main> --}}
     </div>
-    <script src="{{asset('assets/js/vendor-all.min.js')}}"></script>
-	<script src="{{asset('assets/plugins/bootstrap/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('assets/js/pcoded.min.js')}}"></script>
+    <script src="{{asset('assets/js/vendor-all.js')}}?v2"></script>
+	<script src="{{asset('assets/plugins/bootstrap/js/bootstrap.min.js')}}?v2"></script>
+    <script src="{{asset('assets/js/pcoded.js')}}?v2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/es.js"></script>
+    {{-- <script src="{{asset('assets/plugins/notify/bootstrap-notify.min.js')}}"></script> --}}
+    <script type="text/javascript" src="{{asset('assets/plugins/bootstrap-datetimepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <!-- Scripts -->
     {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
+    {{-- <script>
+        $(document).ready(function(){
+            $('.datetime').datetimepicker({
+                format: 'YYYY/MM/DD HH:mm:ss',
+                inline: true,
+                sideBySide: true,
+                locale: 'es',
+                icons: {
+                    time: "far fa-clock",
+                    date: "far fa-calendar-alt",
+                    up: "fas fa-chevron-up",
+                    down: "fas fa-chevron-down"
+                }
+            });
+        })
+    </script> --}}
     @stack('scripts')
 </body>
 </html>

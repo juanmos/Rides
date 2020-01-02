@@ -14,7 +14,8 @@ class Aerolinea extends Model
 
     public $timestamps = false;
 
-    public function vuelos(){
-        return $this->hasMany(Vuelo::class,'aerolinea_id');
+    public function vuelos()
+    {
+        return $this->hasMany(Vuelo::class, 'aerolinea_id');
     }
 }

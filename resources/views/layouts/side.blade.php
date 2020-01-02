@@ -18,18 +18,15 @@
                 <li  class="nav-item {{(Route::currentRouteName()=='admin.hoteles.index')?'active':''}}">
                     <a href="{{route('admin.hoteles.index')}}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-building"></i></span><span class="pcoded-mtext">Hoteles</span></a>
                 </li>
-
-                {{--  <li class="nav-item pcoded-menu-caption">
+                <li class="nav-item pcoded-menu-caption">
                     <label>Administración</label>
                 </li>
-                <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item pcoded-hasmenu">
-                    <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">Administracion</span></a>
-                    <ul class="pcoded-submenu">
-                        <li class=""><a href="{{route('usuario.index')}}" class="">Usuarios</a></li>
-                        <li class=""><a href="{{route('aerolinea.index')}}" class="">Aerolineas</a></li>
-                        <li class=""><a href="bc_breadcrumb-pagination.html" class="">Vuelos</a></li>
+                <li data-username="" class="nav-item pcoded-hasmenu {{(Route::currentRouteName()=='admin.aerolinea.index' )?'active pcoded-trigger':''}}">
+                    <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">Administración</span></a>
+                    <ul class="pcoded-submenu">                        
+                        <li class="{{(Route::currentRouteName()=='admin.aerolinea.index')?'active':''}}"><a href="{{route('admin.aerolinea.index')}}" class="">Aerolíneas</a></li>
                     </ul>
-                </li>  --}}
+                </li>
                 @endif
                 {{-- @if(Auth::user()->hasRole('Usuarios'))
                 <li data-username="form elements advance componant validation masking wizard picker select" class="nav-item">
