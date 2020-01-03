@@ -16,7 +16,7 @@ class HotelController extends Controller
     public function index()
     {
         $hoteles = Hotel::orderBy('nombre')->paginate(50);
-        return view('hotel.index',compact('hoteles'));
+        return view('hotel.index', compact('hoteles'));
     }
 
     /**
@@ -27,7 +27,7 @@ class HotelController extends Controller
     public function create()
     {
         $hotel =null;
-        return view('hotel.form',compact('hotel'));
+        return view('hotel.form', compact('hotel'));
     }
 
     /**
@@ -45,7 +45,7 @@ class HotelController extends Controller
             'email'=>'required|email'
         ]);
         $hotel=Hotel::create($request->all());
-        return redirect()->route('hotel.show',$hotel->id);
+        return redirect()->route('hotel.show', $hotel->id);
     }
 
     /**
@@ -56,7 +56,7 @@ class HotelController extends Controller
      */
     public function show(Hotel $hotel)
     {
-        return view('hotel.show',compact('hotel'));
+        return view('hotel.show', compact('hotel'));
     }
 
     /**
@@ -67,7 +67,7 @@ class HotelController extends Controller
      */
     public function edit(Hotel $hotel)
     {
-        return view('hotel.form',compact('hotel'));
+        return view('hotel.form', compact('hotel'));
     }
 
     /**
@@ -86,7 +86,7 @@ class HotelController extends Controller
             'email'=>'required|email'
         ]);
         $hotel->update($request->all());
-        return redirect()->route('hotel.index',$hotel->id);
+        return redirect()->route('hotel.index', $hotel->id);
     }
 
     /**

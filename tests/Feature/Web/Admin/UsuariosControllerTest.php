@@ -42,6 +42,7 @@ class UsuariosControllerTest extends TestCase
     public function testUserStore()
     {
         $this->withoutExceptionHandling();
+
         $this->actingAs(User::first());
         $response = $this->post('/admin/users/', [
             'nombre'=>'Juan',
@@ -75,8 +76,6 @@ class UsuariosControllerTest extends TestCase
     /** @test */
     public function testUserUpdate()
     {
-        $this->withoutExceptionHandling();
-
         $this->actingAs(User::first());
         $user = factory(User::class)->create();
         $response = $this->put('/admin/users/'.$user->id, [
@@ -90,5 +89,18 @@ class UsuariosControllerTest extends TestCase
         $this->assertCount(2, User::all());
 
         $this->assertEquals('Jose', $user->fresh()->nombre);
+    }
+
+    /** @test */
+    public function testUserDelete()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->actingAs(User::first());
+        $user = factory(User::class)->create();
+        $user->assignRole('Usuarios');
+        $response = $this->delete('/admin/users/'.$user->id);
+        $response->assertRedirect('admin/users');
+        $this->assertCount(1, User::all());
     }
 }

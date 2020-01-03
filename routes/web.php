@@ -72,7 +72,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::group(['prefix' => 'user'], function () {
-        Route::get('/', 'User\DashboardController@index')->name('user.index');
+        Route::get('/', 'User\CarreraController@index')->name('user.index');
     });
 });
 

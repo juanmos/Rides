@@ -92,14 +92,14 @@
 
                                             <div class="form-group col-md-6">
                                                 <label for="exampleInputPassword1">Email</label>
-                                                <input type="email" value="@if($user!=null){{$user->email}}@else{{old('email')}}@endif" name="email" class="form-control @error('email') is-invalid @enderror" id="exampleInputPassword1" placeholder="Email">
+                                                <input type="email" value="@if($user!=null){{$user->email}}@else{{old('email')}}@endif" name="email" @if($user!=null)readonly="readonly"@endif class="form-control @error('email') is-invalid @enderror" id="exampleInputPassword1" placeholder="Email">
                                                 @error('email')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="exampleInputPassword1">Contraseña</label>
-                                                <input type="password" value="@if($user!=null){{$user->password}}@else{{old('password')}}@endif" name="password" class="form-control @error('password') is-invalid @enderror" id="exampleInputPassword1" placeholder="Contraseña">
+                                                <input type="password" value="{{old('password')}}" name="password" class="form-control @error('password') is-invalid @enderror" id="exampleInputPassword1" placeholder="Contraseña">
                                                 @error('password')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
@@ -120,7 +120,7 @@
                                             @if(!Request::is('hotel/*'))
                                             <div class="form-group col-md-6">
                                                 <label for="exampleInputPassword1">Role</label>
-                                                {!! Form::select('role', $roles, ($user!=null)?$user->activo : 1 ,["class"=>"form-control"]) !!}
+                                                {!! Form::select('role', $roles, ($user!=null)?$user->getRoleNames()->first() : 1 ,["class"=>"form-control"]) !!}
                                             </div>
                                             @endif
                                             <div class="form-group col-md-12">

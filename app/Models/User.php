@@ -9,6 +9,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Conductor;
+use App\Models\Carrera;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -55,6 +56,11 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function carreras()
+    {
+        return $this->hasMany(Carrera::class, 'usuario_id');
+    }
 
     public function conductor()
     {

@@ -54,6 +54,11 @@ class UsuarioController extends Controller
             $usuario->foto=$request->file('foto')->store('public/usuarios');
             $usuario->save();
         }
+        if ($request->has('password')) {
+            $usuario->password=\bcrypt($request->get('password'));
+            $usuario->save();
+        }
+
         $usuario->syncRoles($request->get('role'));
         return redirect()->route('admin.users.index');
     }
@@ -93,15 +98,19 @@ class UsuarioController extends Controller
         $request->validate([
             'nombre'=>'required',
             'apellido'=>'required',
-            'email'=>'required|email|unique:App\Models\User,email',
-            'telefono'=>'required',
-            'password'=>'required'
+            'email'=>'required|email',
+            'telefono'=>'required'
         ]);
-        $user->update($request->except(['foto']));
+        $user->update($request->except(['foto','password']));
         if ($request->has('foto')) {
             $user->foto=$request->file('foto')->store('public/usuarios');
             $user->save();
         }
+        if ($request->has('password') && $request->get('password')!=null) {
+            $user->password=\bcrypt($request->get('password'));
+            $user->save();
+        }
+
         $user->syncRoles($request->get('role'));
         return redirect()->route('admin.users.index');
     }
@@ -112,8 +121,13 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        foreach ($user->getRoleNames() as $role) {
+            $user->removeRole($role);
+        }
+        
+        $user->delete();
+        return redirect()->route('admin.users.index');
     }
 }

@@ -50,7 +50,10 @@
                                                             
                                                             <a href="{{ route('admin.users.show',$user->id) }}" class="label theme-bg2 text-white f-12">Ver</a>
                                                             <a href="{{ route('admin.users.edit',$user->id) }}" class="label theme-bg text-white f-12">Editar</a>
-                                                            
+                                                            {!! Form::open(['route'=>['admin.users.destroy',$user->id],'method'=>'POST','style'=>'display:inline-flex;']) !!}
+                                                            @method('delete')
+                                                            <button type="submit" class="label theme-bg text-white f-12 float-right">Eliminar</button>
+                                                            {!! Form::close() !!}
                                                             
                                                         </td>
                                                     </tr>
