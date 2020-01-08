@@ -27,6 +27,15 @@ class Empresa extends Model
 
     public function conductores()
     {
-        return $this->hasMany(User::class, 'empresa_id');
+        return $this->hasMany(User::class, 'empresa_id')->whereHas('roles', function ($query) {
+            $query->where('name', 'Conductores');
+        });
+    }
+
+    public function usuarios()
+    {
+        return $this->hasMany(User::class, 'empresa_id')->whereHas('roles', function ($query) {
+            $query->where('name', 'Operadores');
+        });
     }
 }

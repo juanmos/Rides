@@ -51,7 +51,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('empresa/{empresa}/configuracion', 'Admin\EmpresaController@configuracionView')
             ->name('admin.empresa.configuracion');
         Route::put('empresa/{empresa}/configuracion/{config}', 'Admin\EmpresaController@configuracionSave')
-            ->name('admin.empresa.configuracion');
+            ->name('admin.empresa.configuracion.update');
     });
 
     Route::group(['prefix' => 'driver'], function () {
@@ -74,6 +74,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('{hotel}/user/{user}/edit', 'Hotel\UserController@edit')->name('hotel.user.edit');
         Route::put('{hotel}/user/{user}/update', 'Hotel\UserController@update')->name('hotel.user.update');
         Route::delete('{hotel}/user/{user}/destroy', 'Hotel\UserController@destroy')->name('hotel.user.destroy');
+    });
+
+    Route::group(['prefix' => 'empresa'], function () {
+        Route::get('{empresa}', 'Admin\EmpresaController@show')->name('empresa.show');
+        Route::get('{empresa}/user/create', 'Empresa\UserController@create')->name('empresa.user.create');
+        Route::post('{empresa}/user/store', 'Empresa\UserController@store')->name('empresa.user.store');
+        Route::get('{empresa}/user/{user}', 'Empresa\UserController@show')->name('empresa.user.show');
+        Route::get('{empresa}/user/{user}/edit', 'Empresa\UserController@edit')->name('empresa.user.edit');
+        Route::put('{empresa}/user/{user}/update', 'Empresa\UserController@update')->name('empresa.user.update');
+        Route::delete('{empresa}/user/{user}/destroy', 'Empresa\UserController@destroy')->name('empresa.user.destroy');
     });
 
     Route::group(['prefix' => 'user'], function () {

@@ -34,7 +34,7 @@ class HotelUsuarioControllerTest extends TestCase
     {
         $this->actingAs(User::first());
         $hotel=factory(Hotel::class)->create();
-        $response = $this->post('hotel/1/user/store',[
+        $response = $this->post('hotel/1/user/store', [
             'nombre'=>'Juan',
             'apellido'=>'Moscoso',
             'email'=>'juan@lupp.com',
@@ -50,7 +50,7 @@ class HotelUsuarioControllerTest extends TestCase
     {
         $this->actingAs(User::first());
         $hotel=factory(Hotel::class)->create();
-        $this->post('hotel/1/user/store',[
+        $this->post('hotel/1/user/store', [
             'nombre'=>'Juan',
             'apellido'=>'Moscoso',
             'email'=>'juan@lupp.com',
@@ -67,7 +67,7 @@ class HotelUsuarioControllerTest extends TestCase
         $this->withoutExceptionHandling();
         $this->actingAs(User::first());
         $hotel=factory(Hotel::class)->create();
-        $this->post('hotel/1/user/store',[
+        $this->post('hotel/1/user/store', [
             'nombre'=>'Juan',
             'apellido'=>'Moscoso',
             'email'=>'juan@lupp.com',
@@ -75,7 +75,7 @@ class HotelUsuarioControllerTest extends TestCase
             'telefono'=>'093204993'
         ]);
         $user =$hotel->usuarios()->first();
-        $response = $this->put('hotel/1/user/'.$user->id.'/update',[
+        $response = $this->put('hotel/1/user/'.$user->id.'/update', [
             'nombre'=>'Luis',
             'apellido'=>'Moscoso',
             'email'=>'juan@lupp.com',
@@ -92,7 +92,7 @@ class HotelUsuarioControllerTest extends TestCase
         $this->withoutExceptionHandling();
         $this->actingAs(User::first());
         $hotel=factory(Hotel::class)->create();
-        $this->post('hotel/1/user/store',[
+        $this->post('hotel/1/user/store', [
             'nombre'=>'Juan',
             'apellido'=>'Moscoso',
             'email'=>'juan@lupp.com',

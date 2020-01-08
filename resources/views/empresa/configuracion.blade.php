@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <!-- [ breadcrumb ] end -->
-                <form action="{{route('admin.empresa.configuracion',[$empresa->id,$configuracion->id])}}" method="POST">
+                <form action="{{route('admin.empresa.configuracion.update',[$empresa->id,$configuracion->id])}}" method="POST">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                     @method('PUT')
                 <div class="main-body">

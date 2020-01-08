@@ -138,44 +138,83 @@
                             <div class="col-xl-8 col-md-6">
                                 <div class="card Recent-Users">
                                     <div class="card-header">
-                                        <h5>Conductores # <b>{{$empresa->conductores->count()}}</b></h5>
-                                        {{-- @if(!Auth::user()->hasRole('Vendedor'))
-                                        <a href="{{route('empresa.usuario.create',$empresa->id)}}" class="btn btn-primary float-right"><i class="fas fa-user-plus text-c-white f-10 m-r-15"></i> Nuevo usuario</a>
-                                        @endif --}}
+                                        <h5>Listado de usuarios</h5>
+                                        @if(Auth::user()->hasRole('Administradores') || Auth::user()->hasRole('Operadores'))
+                                        <a href="{{route('empresa.user.create',$empresa->id)}}" class="btn btn-primary float-right"><i class="fas fa-user-plus text-c-white f-10 m-r-15"></i> Nuevo usuario</a>
+                                        @endif
                                     </div>
                                     <div class="card-block px-0 py-3">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <tbody>
-                                                    @forelse ($empresa->conductores as $usuario )
-                                                        
-                                                    
-                                                    <tr class="unread">
-                                                        <td><img class="rounded-circle" style="width:40px;" src="{{Storage::url($usuario->foto)}}" alt="activity-user"></td>
-                                                        <td>
-                                                            <h6 class="mb-1">{{$usuario->nombre}} {{$usuario->apellido}}</h6>
-                                                            <p class="m-0">{{$usuario->telefono}}</p>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class="text-muted"><i class="fas fa-circle {{($usuario->activo)?'text-c-green' :'text-c-red' }} f-10 m-r-15"></i>{{$usuario->email}}</h6>
-                                                            <p class="m-0">{{$usuario->getRoleNames()->implode(',')}}</p>
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{route('empresa.usuario.show',[$usuario->id] )}}" class="label theme-bg2 text-white f-12">Ver</a>
-                                                            <a href="{{route('empresa.usuario.edit',[$usuario->id] )}}" class="label theme-bg text-white f-12">Editar</a>
-                                                            @if(!$usuario->hasRole('Vendedor'))
-                                                            <br>
-                                                            <br>
-                                                            <a href="{{route('empresa.usuario.asignar' )}}" class="label theme-bg text-white f-12">Asignar vendedores</a>
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                    @empty
-                                                    <p>No hay usuarios</p>
-                                                    
-                                                    @endforelse
-                                                </tbody>
-                                            </table>
+                                        <ul class="nav nav-pills" id="myTab" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active show" id="conductores-tab" data-toggle="tab" href="#conductores" role="tab" aria-controls="conductores" aria-selected="false">Conductores <b>{{$empresa->conductores->count()}}</b></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="operadores-tab" data-toggle="tab" href="#operadores" role="tab" aria-controls="operadores" aria-selected="true">Usuarios <b>{{$empresa->usuarios->count()}}</b></a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content" id="myTabContent">
+                                            <div class="tab-pane fade active show" id="conductores" role="tabpanel" aria-labelledby="conductores-tab">
+                                                <div class="row">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-hover">
+                                                            <tbody>
+                                                                @forelse ($empresa->conductores as $usuario )
+                                                                <tr class="unread">
+                                                                    <td><img class="rounded-circle" style="width:40px;" src="{{Storage::url($usuario->foto)}}" alt="activity-user"></td>
+                                                                    <td>
+                                                                        <h6 class="mb-1">{{$usuario->nombre}} {{$usuario->apellido}}</h6>
+                                                                        <p class="m-0">{{$usuario->telefono}}</p>
+                                                                    </td>
+                                                                    <td>
+                                                                        <h6 class="text-muted"><i class="fas fa-circle {{($usuario->activo)?'text-c-green' :'text-c-red' }} f-10 m-r-15"></i>{{$usuario->email}}</h6>
+                                                                        <p class="m-0">{{$usuario->getRoleNames()->implode(',')}}</p>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="{{route('empresa.user.show',[$empresa->id,$usuario->id] )}}" class="label theme-bg2 text-white f-12">Ver</a>
+                                                                        <a href="{{route('empresa.user.edit',[$empresa->id,$usuario->id] )}}" class="label theme-bg text-white f-12">Editar</a>
+                                                                        
+                                                                    </td>
+                                                                </tr>
+                                                                @empty
+                                                                <p>No hay usuarios</p>
+                                                                
+                                                                @endforelse
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="operadores" role="tabpanel" aria-labelledby="operadores-tab">
+                                                <div class="row">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-hover">
+                                                            <tbody>
+                                                                @forelse ($empresa->usuarios as $usuario )
+                                                                <tr class="unread">
+                                                                    <td><img class="rounded-circle" style="width:40px;" src="{{Storage::url($usuario->foto)}}" alt="activity-user"></td>
+                                                                    <td>
+                                                                        <h6 class="mb-1">{{$usuario->nombre}} {{$usuario->apellido}}</h6>
+                                                                        <p class="m-0">{{$usuario->telefono}}</p>
+                                                                    </td>
+                                                                    <td>
+                                                                        <h6 class="text-muted"><i class="fas fa-circle {{($usuario->activo)?'text-c-green' :'text-c-red' }} f-10 m-r-15"></i>{{$usuario->email}}</h6>
+                                                                        <p class="m-0">{{$usuario->getRoleNames()->implode(',')}}</p>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="{{route('empresa.user.show',[$empresa->id,$usuario->id] )}}" class="label theme-bg2 text-white f-12">Ver</a>
+                                                                        <a href="{{route('empresa.user.edit',[$empresa->id,$usuario->id] )}}" class="label theme-bg text-white f-12">Editar</a>
+                                                                        
+                                                                    </td>
+                                                                </tr>
+                                                                @empty
+                                                                <p>No hay usuarios</p>
+                                                                
+                                                                @endforelse
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

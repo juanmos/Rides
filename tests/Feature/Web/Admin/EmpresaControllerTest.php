@@ -72,11 +72,24 @@ class EmpresaControllerTest extends TestCase
     }
 
     /** @test */
-    public function testEmpresaShow()
+    public function testEmpresaShowAdmin()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAs(User::first());
         $empresa = factory(Empresa::class)->create();
         $response = $this->get('admin/empresa/'.$empresa->id);
+        $response->assertViewIs('empresa.show');
+        $response->assertViewHasAll(['empresa']);
+    }
+
+    public function testEmpresaShow()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->actingAs(User::first());
+        $empresa = factory(Empresa::class)->create();
+        $response = $this->get('empresa/'.$empresa->id);
         $response->assertViewIs('empresa.show');
         $response->assertViewHasAll(['empresa']);
     }

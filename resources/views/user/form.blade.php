@@ -35,6 +35,10 @@
 
                 <form action="{{($user!=null)?route('hotel.user.update',[$hotel->id,$user->id]):route('hotel.user.store',$hotel->id)}}" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="hotel_id" value="{{$hotel->id}}"/>
+                @elseif(Request::is('empresa/*'))
+
+                <form action="{{($user!=null)?route('empresa.user.update',[$empresa->id,$user->id]):route('empresa.user.store',$empresa->id)}}" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="empresa_id" value="{{$empresa->id}}"/>
                 @else
                 <form action="{{($user!=null)?route('admin.users.update',[$user->id]):route('admin.users.store')}}" method="POST" enctype="multipart/form-data">
                 @endif
