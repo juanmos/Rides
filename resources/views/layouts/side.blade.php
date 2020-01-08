@@ -12,6 +12,9 @@
                     <a href="{{route('home')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Inicio</span></a>
                 </li>
                 @if(Auth::user()->hasRole('Administradores'))
+                <li  class="nav-item {{(Route::currentRouteName()=='admin.empresa.index')?'active':''}}">
+                    <a href="{{route('admin.empresa.index')}}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-building"></i></span><span class="pcoded-mtext">Empresas</span></a>
+                </li>
                 <li  class="nav-item {{(Route::currentRouteName()=='admin.drivers.index')?'active':''}}">
                     <a href="{{route('admin.drivers.index')}}" class="nav-link "><span class="pcoded-micon"><i class="fas fa-car"></i></span><span class="pcoded-mtext">Conductores</span></a>
                 </li>

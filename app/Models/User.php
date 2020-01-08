@@ -32,6 +32,7 @@ class User extends Authenticatable implements JWTSubject
         'token_ios',
         'conductor_id',
         'hotel_id',
+        'empresa_id',
         'foto',
         'activo',
         'primer_login',
@@ -65,6 +66,11 @@ class User extends Authenticatable implements JWTSubject
     public function conductor()
     {
         return $this->belongsTo(Conductor::class, 'conductor_id');
+    }
+
+    public function empresa()
+    {
+        return $this->belongsTo(Empresa::class, 'empresa_id');
     }
 
     public function getFullNameAttribute()

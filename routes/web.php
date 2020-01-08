@@ -47,6 +47,11 @@ Route::group(['middleware' => ['auth']], function () {
             ->name('admin.aerolinea.vuelo.destroy');
 
         Route::resource('users', 'Admin\UsuarioController', ['as'=>'admin']);
+        Route::resource('empresa', 'Admin\EmpresaController', ['as'=>'admin']);
+        Route::get('empresa/{empresa}/configuracion', 'Admin\EmpresaController@configuracionView')
+            ->name('admin.empresa.configuracion');
+        Route::put('empresa/{empresa}/configuracion/{config}', 'Admin\EmpresaController@configuracionSave')
+            ->name('admin.empresa.configuracion');
     });
 
     Route::group(['prefix' => 'driver'], function () {
