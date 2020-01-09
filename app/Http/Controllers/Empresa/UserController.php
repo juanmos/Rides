@@ -37,4 +37,42 @@ class UserController extends Controller
         $user->assignRole($request->get('role'));
         return redirect()->route('empresa.show', $empresa->id);
     }
+
+    public function show(Empresa $empresa, User $user)
+    {
+        return view('empresa.user', compact('user', 'empresa'));
+    }
+
+    public function edit(Empresa $empresa, User $user)
+    {
+        $roles = Role::whereIn('name', ['Operadores','Conductores'])->orderBy('name')->get()->pluck('name', 'name');
+        return view('user.form', compact('empresa', 'roles', 'user'));
+    }
+
+    public function update(Request $request, Empresa $empresa, User $user)
+    {
+        $request->validate([
+            'nombre'=>'required',
+            'apellido'=>'required',
+            'email'=>'required|email',
+            'telefono'=>'required'
+        ]);
+        $user->update($request->except(['email','password','foto']));
+        if ($request->has('password') && $request->get('password')!=null) {
+            $user->password=\bcrypt($request->get('password'));
+            $user->save();
+        }
+        if ($request->has('foto')) {
+            $user->foto=$request->file('foto')->store('public/usuarios');
+            $user->save();
+        }
+
+        return redirect()->route('empresa.show', $empresa->id);
+    }
+
+    public function destroy(Request $request, Empresa $empresa, User $user)
+    {
+        $user->delete();
+        return redirect()->route('empresa.show', $empresa->id);
+    }
 }
