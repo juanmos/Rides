@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Aerolinea;
 use App\Models\Vuelo;
 use App\Models\FormaPago;
+use App\Models\Ciudad;
+use App\Models\Empresa;
 use App\Models\Estado;
 use App\Models\User;
 
@@ -14,28 +16,30 @@ class Carrera extends Model
 {
     use SoftDeletes;
 
-    protected $fillable=['estado_id',
+    protected $fillable=[
+        'empresa_id',
+        'estado_id',
         'usuario_id',
         'conductor_id',
         'forma_pago_id',
         'fecha',
         'hora',
-        'vuelo',
-        'lugar_arribo',
-        'personas',
+        'direccion',
+        'referencia',
         'destino',
         'latitud',
         'longitud',
-        'aerolinea_id',
-        'vuelo_id',
+        'latitud_destino',
+        'longitud_destino',
         'costo',
         'comision',
-        'factura',
-        'compartido',
-        'maletas',
-        'sentido',
-        'calificacion',
-        'nombre'
+        'calificacion_usuario',
+        'calificacion_conductor',
+        'hora_aceptacion',
+        'hora_llegada',
+        'hora_abordaje',
+        'hora_terminacion',
+        'hora_cancelacion',
     ];
 
     public function usuario()
@@ -66,5 +70,15 @@ class Carrera extends Model
     public function formaPago()
     {
         return $this->belongsTo(FormaPago::class, 'forma_pago_id');
+    }
+
+    public function empresa()
+    {
+        return $this->belongsTo(Empresa::class, 'empresa_id');
+    }
+
+    public function ciudad()
+    {
+        return $this->belongsTo(Ciudad::class, 'ciudad_id');
     }
 }

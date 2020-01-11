@@ -20,6 +20,11 @@ Route::group(['middleware'=>['jwt.auth']], function () {
     Route::get('usuario', 'ApiAuthController@me');
     Route::post('usuario/geoposicion', 'ApiAuthController@geoposicion');
     Route::put('usuario/registro/push', 'ApiAuthController@registroPush');
+
+    Route::resource('carrera', 'CarreraController');
+    Route::group(['prefix' => 'carrera'], function () {
+
+    });
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
