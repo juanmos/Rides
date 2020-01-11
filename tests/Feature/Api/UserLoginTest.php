@@ -24,7 +24,6 @@ class UserLoginTest extends TestCase
             ->login(User::first());
         $this->headers['Authorization'] = 'Bearer ' . $token;
         $this->seed(UsuarioSeeder::class);
-        
     }
 
     /**
@@ -32,10 +31,9 @@ class UserLoginTest extends TestCase
      *
      * @return void
      */
-    public function test_login_user()
+    public function testLoginUser()
     {
-        
-        $this->actingAs(User::first(),'api');
+        $this->actingAs(User::first(), 'api');
 
         $response = $this->post('api/login', [
             'email'    => 'test@email.com',
@@ -49,7 +47,7 @@ class UserLoginTest extends TestCase
     }
 
     /** @test */
-    public function test_user_not_registered()
+    public function testUserNotRegistered()
     {
         $this->withoutExceptionHandling();
         $response = $this->post('api/login', [
@@ -61,13 +59,13 @@ class UserLoginTest extends TestCase
             'error'
         ]);
         $response->assertJsonFragment(['success'=>false]);
-        $response->assertJsonFragment(['error'=>'No hemos encontrado tus credenciales de usuario. Por favor contacte al administrador.']);
+        $response->assertJsonFragment(['error'=>'No hemos encontrado tus datos de usuario. Por favor contacte al administrador.']);
     }
     
     /** @test */
-    public function test_validate_user_credentials()
+    public function testValidateUserCredentials()
     {
-        $this->actingAs(User::first(),'api');
+        $this->actingAs(User::first(), 'api');
 
         $response = $this->post('api/login', [
             
@@ -76,12 +74,55 @@ class UserLoginTest extends TestCase
     }
 
     /** @test */
-    public function test_obtain_login_user_data()
+    public function testObtainLoginUserData()
     {
-        $this->actingAs(User::first(),'api');
-        $response = $this->get('api/me',$this->headers);
+        $this->actingAs(User::first(), 'api');
+        $response = $this->get('api/usuario', $this->headers);
         $response->assertJsonStructure(['user','roles']);
     }
-    
-    
+
+    /** @test */
+    public function testLoginDriver()
+    {
+        $user = User::first();
+        $user->assignRole('Conductores');
+        $this->actingAs($user, 'api');
+        $response = $this->post('api/login/Conductores', [
+            'email'    => 'test@email.com',
+            'password' => '123456'
+        ]);
+        $response->assertJsonStructure([
+            'token',
+            'token_type'
+        ]);
+        $this->assertAuthenticated('api');
+    }
+
+    /** @test */
+    public function testRegisterPush()
+    {
+        $user = User::first();
+        $user->assignRole('Conductores');
+        $this->actingAs($user, 'api');
+        $response= $this->put('api/usuario/registro/push', [
+            'tipo'=>1,
+            'dispositivo'=>'9shf9sf9shf9sh9f'
+        ], $this->headers);
+        $response->assertJson(['guardado'=>true]);
+        $this->assertEquals('9shf9sf9shf9sh9f', $user->fresh()->token_ios);
+    }
+
+    /** @test */
+    public function testGeoPosicionUsuario()
+    {
+        $user = User::first();
+        $user->assignRole('Conductores');
+        $this->actingAs($user, 'api');
+        $response = $this->post('api/usuario/geoposicion', [
+            'latitud'=>-0.16187499463558197,
+            'longitud'=>-78.47874450683594
+        ], $this->headers);
+        $response->assertJson(['guardado'=>true]);
+        // $this->assertCount(1, Geoposicion::all());
+    }
 }

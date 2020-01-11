@@ -16,7 +16,7 @@ class ApiAuthController extends Controller
         $this->middleware('jwt.auth', ['except' => ['login']]);
     }
 
-    public function login(Request $request)
+    public function login(Request $request, $tipo = null)
     {
         $credentials = $request->only('email', 'password');
         
@@ -34,7 +34,7 @@ class ApiAuthController extends Controller
             if (! $token = auth('api')->attempt($credentials)) {
                 return response()->json([
                     'success' => false,
-                    'error' => 'No hemos encontrado tus credenciales de usuario. Por favor contacte al administrador.'
+                    'error' => 'No hemos encontrado tus datos de usuario. Por favor contacte al administrador.'
                 ], 404);
             }
         } catch (JWTException $e) {
@@ -43,6 +43,12 @@ class ApiAuthController extends Controller
                 'success' => false,
                 'error' => 'Error al iniciar sesión, por favor intente nuevamente.'
             ], 500);
+        }
+        if ($tipo!=null &&  !in_array($tipo, auth('api')->user()->getRoleNames()->toArray())) {
+            return response()->json([
+                    'success' => false,
+                    'error' => 'No tienes permiso para acceder a esta aplicación. Si quieres conectarte a la de usuarios descarga Lupp App.'
+                ], 404);
         }
         // all good so return the token
         return response()->json([
@@ -55,11 +61,37 @@ class ApiAuthController extends Controller
     public function me()
     {
         try {
-            $user = User::where('id',auth('api')->user()->id)->with(['conductor'])->first();
+            $user = User::where('id', auth('api')->user()->id)->with(['conductor'])->first();
             $roles = $user->getRoleNames();
-            return response()->json(compact('user','roles'));
+            return response()->json(compact('user', 'roles'));
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
             return response()->json(['token_absent'], $e->getStatusCode());
-        } 
+        }
+    }
+
+    public function registroPush(Request $request)
+    {
+        $request->validate([
+            'dispositivo'=>'required',
+            'tipo'=>'required'
+        ]);
+        $data=[];
+        if ($request->get('tipo')==1) {
+            $data['token_ios']=$request->get('dispositivo');
+        } else {
+            $data['token_and']=$request->get('dispositivo');
+        }
+        auth()->user()->update($data);
+        return response()->json(['guardado'=>true]);
+    }
+
+    public function geoposicion(Request $request)
+    {
+        $request->validate([
+            'latitud'=>'required',
+            'longitud'=>'required'
+        ]);
+        auth()->user()->update($request->all());
+        return response()->json(['guardado'=>true]);
     }
 }
