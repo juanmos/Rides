@@ -28,9 +28,6 @@ class UserDeletes extends Migration
         Schema::table('hotels', function (Blueprint $table) {
             $table->softDeletes();
         });
-        Schema::table('carreras', function (Blueprint $table) {
-            $table->softDeletes();
-        });
     }
 
     /**

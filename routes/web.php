@@ -14,6 +14,10 @@
 Auth::routes();
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
+Route::get('/mensaje', function () {
+    \Event(new App\Events\NuevaCarreraEvent);
+});
+
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', 'HomeController@index')->name('home');

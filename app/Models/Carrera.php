@@ -31,6 +31,7 @@ class Carrera extends Model
         'longitud',
         'latitud_destino',
         'longitud_destino',
+        'inicio',
         'costo',
         'comision',
         'calificacion_usuario',
@@ -80,5 +81,23 @@ class Carrera extends Model
     public function ciudad()
     {
         return $this->belongsTo(Ciudad::class, 'ciudad_id');
+    }
+
+    public function scopeCloseTo($query, $latitude, $longitude)
+    {
+        return $query->whereRaw("
+            ST_Distance_Sphere(
+                    point(longitud, latitud),
+                    point(?, ?)
+                ) * .000621371192 < 5
+            ", [
+                $longitude,
+                $latitude,
+            ]);
+    }
+
+    public function scopeCreada($query)
+    {
+        return $query->whereIn('estado_id', [1]);
     }
 }

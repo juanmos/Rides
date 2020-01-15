@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use App\Notifications\NuevaCarreraConductorNotification;
 
 class EnviarConductoresJob implements ShouldQueue
 {
@@ -30,7 +31,7 @@ class EnviarConductoresJob implements ShouldQueue
     public function handle()
     {
         $conductores = $this->carrera->empresa->conductores;
-        foreach($conductores as $conductor){
+        foreach ($conductores as $conductor) {
             $conductor->notify(new NuevaCarreraConductorNotification($this->carrera));
         }
     }

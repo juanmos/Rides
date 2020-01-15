@@ -23,7 +23,8 @@ Route::group(['middleware'=>['jwt.auth']], function () {
 
     Route::resource('carrera', 'CarreraController');
     Route::group(['prefix' => 'carrera'], function () {
-
+        Route::get('by/user', 'CarreraController@user');
+        Route::put('{carrera}/cancelar', 'CarreraController@cancelar');
     });
 });
 

@@ -22,16 +22,16 @@ class CreateCarrerasTable extends Migration
             $table->integer('forma_pago_id');
             $table->date('fecha');
             $table->time('hora');
-            $table->string('direccion')->nullable()->after('personas');
-            $table->string('referencia')->nullable()->after('direccion');
+            $table->string('direccion')->nullable();
+            $table->string('referencia')->nullable();
             $table->string('destino')->nullable();
             $table->integer('ciudad_id')->default(1);
-            $table->decimal('latitud',16,10)->default(0);
-            $table->decimal('longitud',16,10)->default(0);
-            $table->decimal('latitud_destino',16,10)->default(0);
-            $table->decimal('longitud_destino',16,10)->default(0);
-            $table->decimal('costo',6,2)->default(0);
-            $table->decimal('comision',6,2)->default(0);
+            $table->decimal('latitud', 16, 10)->default(0);
+            $table->decimal('longitud', 16, 10)->default(0);
+            $table->decimal('latitud_destino', 16, 10)->default(0);
+            $table->decimal('longitud_destino', 16, 10)->default(0);
+            $table->decimal('costo', 6, 2)->default(0);
+            $table->decimal('comision', 6, 2)->default(0);
             $table->integer('calificacion_usuario')->default(0);
             $table->integer('calificacion_conductor')->default(0);
             $table->dateTime('hora_aceptacion')->nullable();
@@ -40,6 +40,7 @@ class CreateCarrerasTable extends Migration
             $table->dateTime('hora_terminacion')->nullable();
             $table->dateTime('hora_cancelacion')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
