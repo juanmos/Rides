@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 
 Route::post('login/{tipo?}', 'ApiAuthController@login');
 
+// Broadcast::routes(["middleware" => ["api", "jwt:auth"]]);
 
 Route::group(['middleware'=>['jwt.auth']], function () {
     Route::get('usuario', 'ApiAuthController@me');

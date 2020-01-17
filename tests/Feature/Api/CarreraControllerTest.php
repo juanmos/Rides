@@ -16,16 +16,17 @@ class CarreraControllerTest extends TestCase
 {
     use RefreshDatabase;
     protected $headers;
+    protected $user;
 
     public function setUp():void
     {
         parent::setUp();
-        $user=factory(User::class)->create([
+        $this->user=factory(User::class)->create([
             'email'    => 'test@email.com',
             'password' => bcrypt('123456')
         ]);
         $token = auth()->guard('api')
-            ->login($user);
+            ->login($this->user);
         $this->headers['Authorization'] = 'Bearer ' . $token;
         $this->seed(UsuarioSeeder::class);
         Queue::fake();
@@ -101,5 +102,21 @@ class CarreraControllerTest extends TestCase
         $response = $this->get('api/carrera', $this->headers);
         $response->assertOk();
         $response->assertJsonStructure(['carrera']);
+    }
+
+    public function testAceptarCarrera()
+    {
+        $this->withoutExceptionHandling([]);
+
+        $carrera=factory(Carrera::class)->create([
+            'usuario_id'=>2
+        ]);
+        $response = $this->put('api/carrera/'.$carrera->id, [
+            'estado_id'=>3
+        ], $this->headers);
+        $response->assertOk();
+        $response->assertJsonStructure(['carrera']);
+        $this->assertEquals(3, $carrera->fresh()->estado_id);
+        $this->assertEquals($this->user->id, $carrera->fresh()->conductor_id);
     }
 }

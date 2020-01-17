@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Events\CarreraAceptadaOtroEvent;
+use App\Events\CancelaCarreraPreviaEvent;
+use App\Events\CarreraAceptadaEvent;
+use App\Events\CarreraCanceladaEvent;
+use App\Events\TaxiLlegoEvent;
 use App\Events\NuevaCarreraEvent;
 use App\Jobs\EnviarConductoresJob;
 use App\Models\Empresa;
@@ -79,7 +84,7 @@ class CarreraController extends Controller
 
     public function user()
     {
-        $carrera = auth()->user()->carreras()->whereIn('estado_id', [1,2,3,4,5])->first();
+        $carrera = auth()->user()->carrera();
         return response()->json(compact('carrera'));
     }
 
@@ -101,16 +106,36 @@ class CarreraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Carrera $carrera)
     {
-        //
+        if ($request->has('estado_id')) {
+            $carrera->estado_id=$request->get('estado_id');
+            if ($carrera->estado_id ==2 || $carrera->estado_id ==3) {
+                $carrera->hora_aceptacion=now()->toDateTimeString();
+                $carrera->conductor_id=auth()->user()->id;
+                event(new CarreraAceptadaEvent($carrera));
+                event(new CarreraAceptadaOtroEvent($carrera));
+            } elseif ($carrera->estado_id ==4) {
+                $carrera->hora_llegada=now()->toDateTimeString();
+                event(new TaxiLlegoEvent($carrera));
+            } elseif ($carrera->estado_id ==5) {
+                $carrera->hora_abordaje=now()->toDateTimeString();
+            }
+            $carrera->save();
+        }
+        return response()->json(compact('carrera'));
     }
 
     public function cancelar(Request $request, Carrera $carrera)
     {
-        $carrera->estado_id=20;
+        $carrera->estado_id=($carrera->estado_id==1)?20:21;
         $carrera->hora_cancelacion=now()->toDateTimeString();
         $carrera->save();
+        if ($carrera->estado_id==21) {
+            event(new CarreraCanceladaEvent($carrera));
+        } else {
+            event(new CancelaCarreraPreviaEvent($carrera));
+        }
         return response()->json(['cancelada'=>true]);
     }
 

@@ -78,7 +78,7 @@ class UserLoginTest extends TestCase
     {
         $this->actingAs(User::first(), 'api');
         $response = $this->get('api/usuario', $this->headers);
-        $response->assertJsonStructure(['user','roles']);
+        $response->assertJsonStructure(['user','roles','carrera']);
     }
 
     /** @test */

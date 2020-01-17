@@ -12,6 +12,8 @@
 */
 
 Auth::routes();
+// Broadcast::routes(["middleware" => ["api", "jwt:auth",'web','auth']]);
+
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('/mensaje', function () {

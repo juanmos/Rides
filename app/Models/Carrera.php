@@ -11,6 +11,7 @@ use App\Models\Ciudad;
 use App\Models\Empresa;
 use App\Models\Estado;
 use App\Models\User;
+use App;
 
 class Carrera extends Model
 {
@@ -42,6 +43,8 @@ class Carrera extends Model
         'hora_terminacion',
         'hora_cancelacion',
     ];
+
+    protected $with=['usuario','conductor.conductor','estado'];
 
     public function usuario()
     {
@@ -85,6 +88,9 @@ class Carrera extends Model
 
     public function scopeCloseTo($query, $latitude, $longitude)
     {
+        if (App::runningUnitTests()) {
+            return $query->where("1", "1");
+        }
         return $query->whereRaw("
             ST_Distance_Sphere(
                     point(longitud, latitud),
@@ -99,5 +105,10 @@ class Carrera extends Model
     public function scopeCreada($query)
     {
         return $query->whereIn('estado_id', [1]);
+    }
+
+    public function scopeActiva($query)
+    {
+        return $query->whereIn('estado_id', [1,2,3,4,5]);
     }
 }

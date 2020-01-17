@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NuevaCarreraEvent implements ShouldBroadcast
+class CarreraAceptadaEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     private $carrera;
@@ -31,16 +31,16 @@ class NuevaCarreraEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('carrera');
+        return new PrivateChannel('carrera.'.$this->carrera->id);
     }
 
     public function broadcastAs()
     {
-        return 'carrera.nueva';
+        return 'carrera.aceptada';
     }
 
     public function broadcastWith()
     {
-        return ['id' => $this->carrera->id];
+        return ['id' => $this->carrera->id,'conductor_id'=>$this->carrera->conductor_id];
     }
 }

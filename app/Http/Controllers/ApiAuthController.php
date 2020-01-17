@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Tymon\JWTAuthExceptions\JWTException;
+use App\Events\NuevaPosicionEvent;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Validator;
@@ -58,12 +59,13 @@ class ApiAuthController extends Controller
         //return response()->json(['success' => true, 'data'=> [ 'token' => $token ]], 200);
     }
 
-    public function me()
+    public function me(Request $request)
     {
         try {
             $user = User::where('id', auth('api')->user()->id)->with(['conductor'])->first();
             $roles = $user->getRoleNames();
-            return response()->json(compact('user', 'roles'));
+            $carrera = $user->carrera();
+            return response()->json(compact('user', 'roles', 'carrera'));
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
             return response()->json(['token_absent'], $e->getStatusCode());
         }
@@ -92,6 +94,10 @@ class ApiAuthController extends Controller
             'longitud'=>'required'
         ]);
         auth()->user()->update($request->all());
+        $carrera = auth()->user()->carrera();
+        if ($carrera!=null) {
+            event(new NuevaPosicionEvent($carrera));
+        }
         return response()->json(['guardado'=>true]);
     }
 }

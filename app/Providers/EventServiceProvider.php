@@ -20,6 +20,15 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\NuevaCarreraEvent' => [
             'App\Listeners\NuevaCarreraListener'
+        ],
+        'App\Events\CarreraAceptadaEvent' => [
+            'App\Listeners\CarreraAceptadaListener'
+        ],
+        'App\Events\TaxiLlegoEvent' => [
+            'App\Listeners\TaxiLlegoListener'
+        ],
+        'App\Events\CarreraCanceladaEvent' => [
+            'App\Listeners\CarreraCanceladaListener'
         ]
     ];
 

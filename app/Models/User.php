@@ -78,6 +78,15 @@ class User extends Authenticatable implements JWTSubject
         return "{$this->nombre} {$this->apellido}";
     }
 
+    public function carrera()
+    {
+        if (in_array('Conductores', $this->getRoleNames()->toArray())) {
+            return  Carrera::activa()->where('conductor_id', $this->id)->first();
+        } else {
+            return  Carrera::activa()->where('usuario_id', $this->id)->first();
+        }
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
