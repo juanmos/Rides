@@ -29,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\CarreraCanceladaEvent' => [
             'App\Listeners\CarreraCanceladaListener'
+        ],
+        'App\Events\CarreraFinalizadaEvent' => [
+            'App\Listeners\CarreraFinalizadaListener'
         ]
     ];
 

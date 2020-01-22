@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Events\CarreraFinalizadaEvent;
 use App\Events\CarreraAceptadaOtroEvent;
 use App\Events\CancelaCarreraPreviaEvent;
 use App\Events\CarreraAceptadaEvent;
@@ -124,6 +125,20 @@ class CarreraController extends Controller
             $carrera->save();
         }
         return response()->json(compact('carrera'));
+    }
+
+    public function terminar(Request $request, Carrera $carrera)
+    {
+        $carrera->estado_id=7;
+        $carrera->hora_terminacion=now()->toDateTimeString();
+        $carrera->costo=$request->get('costo');
+        $carrera->calificacion_usuario=$request->get('calificacion_usuario');
+        $carrera->latitud_destino=$request->get('latitud_destino');
+        $carrera->longitud_destino=$request->get('longitud_destino');
+
+        $carrera->save();
+        event(new CarreraFinalizadaEvent($carrera));
+        return response()->json(['finalizada'=>true]);
     }
 
     public function cancelar(Request $request, Carrera $carrera)
