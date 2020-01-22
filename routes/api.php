@@ -27,6 +27,7 @@ Route::group(['middleware'=>['jwt.auth']], function () {
         Route::get('by/user', 'CarreraController@user');
         Route::put('{carrera}/cancelar', 'CarreraController@cancelar');
         Route::put('{carrera}/terminar', 'CarreraController@terminar');
+        Route::put('{carrera}/califica', 'CarreraController@calificar');
     });
 });
 

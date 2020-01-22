@@ -154,6 +154,15 @@ class CarreraController extends Controller
         return response()->json(['cancelada'=>true]);
     }
 
+    public function calificar(Request $request, Carrera $carrera)
+    {
+        $data= $request->validate([
+            'calificacion_conductor'=>'required|numeric'
+        ]);
+        $carrera->update($data);
+        return response()->json(['calificado'=>true]);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

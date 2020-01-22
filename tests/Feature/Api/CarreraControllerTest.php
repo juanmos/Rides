@@ -136,4 +136,18 @@ class CarreraControllerTest extends TestCase
         $this->assertEquals(5, $carrera->fresh()->calificacion_usuario);
         $this->assertEquals(now()->toDateTimeString(), $carrera->fresh()->hora_terminacion);
     }
+
+    /** @test */
+    public function testCalificaConductoCarrera()
+    {
+        $carrera=factory(Carrera::class)->create([
+            'usuario_id'=>2
+        ]);
+        $response = $this->put('api/carrera/'.$carrera->id.'/califica', [
+            'calificacion_conductor'=>5
+        ], $this->headers);
+        $response->assertOk();
+        $response->assertJson(['calificado'=>true]);
+        $this->assertEquals(5, $carrera->fresh()->calificacion_conductor);
+    }
 }
